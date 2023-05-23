@@ -2,11 +2,15 @@ library overlay_text_form_field;
 
 import 'package:flutter/material.dart';
 
+/// A type representing the function passed to [OverlayTextFormField] for its
+/// `overlayMentionBuilder` and `overlayTagBuilder`.
 typedef OverlayBuilder = Widget Function(
   String query,
   void Function(String selectedValue) onOverlaySelect,
 );
 
+/// OverlayTextFormField create a [TextFormField] with ability to show overlay
+/// for user mention or tag
 class OverlayTextFormField extends StatefulWidget {
   const OverlayTextFormField({
     super.key,
@@ -26,41 +30,42 @@ class OverlayTextFormField extends StatefulWidget {
 }
 
 class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
-  OverlayEntry? overlayEntry;
-  bool isOverlayVisible = false;
-  final layerLink = LayerLink();
+  OverlayEntry? _overlayEntry;
+  bool _isOverlayVisible = false;
+  final _layerLink = LayerLink();
 
-  var start = '';
-  var query = '';
-  var last = '';
+  var _start = '';
+  var _query = '';
+  var _last = '';
 
-  showOverlay(bool isMention, bool isTag) {
+  /// Shows the overlay
+  void _showOverlay(bool isMention, bool isTag) {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
 
-    overlayEntry = OverlayEntry(
+    _overlayEntry = OverlayEntry(
       builder: (context) => BackButtonListener(
         onBackButtonPressed: () async {
-          hideOverlay();
+          _hideOverlay();
           return true;
         },
         child: Positioned(
           width: size.width,
           height: 224,
           child: CompositedTransformFollower(
-            link: layerLink,
+            link: _layerLink,
             offset: Offset(0, size.height + 8),
             child: Card(
               clipBehavior: Clip.hardEdge,
               child: isMention
                   ? widget.overlayMentionBuilder(
-                      query.toLowerCase(),
-                      onOverlaySelect,
+                      _query.toLowerCase(),
+                      _onOverlaySelect,
                     )
                   : isTag
                       ? widget.overlayTagBuilder(
-                          query.toLowerCase(),
-                          onOverlaySelect,
+                          _query.toLowerCase(),
+                          _onOverlaySelect,
                         )
                       : null,
             ),
@@ -69,28 +74,32 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
       ),
     );
 
-    Overlay.of(context).insert(overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
     setState(() {
-      isOverlayVisible = true;
+      _isOverlayVisible = true;
     });
   }
 
-  void onOverlaySelect(String handle) {
-    widget.controller.text = '$start$handle $last';
+  /// Update the [TextEditingController] with the selected handle or tag and
+  /// hides the overlay
+  void _onOverlaySelect(String handle) {
+    widget.controller.text = '$_start$handle $_last';
     widget.controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: start.length + handle.length + 1),
+      TextPosition(offset: _start.length + handle.length + 1),
     );
-    hideOverlay();
+
+    _hideOverlay();
   }
 
-  hideOverlay() {
-    overlayEntry?.remove();
+  /// Hides the overlay
+  void _hideOverlay() {
+    _overlayEntry?.remove();
     setState(() {
-      isOverlayVisible = false;
+      _isOverlayVisible = false;
     });
   }
 
-  onChanged() {
+  void _onChanged() {
     final value = widget.controller.text;
     final cursorPosition = widget.controller.selection.baseOffset;
 
@@ -118,24 +127,24 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
           1;
       final lastindex = value.indexOf(' ', cursorPosition);
 
-      start = triggervalue.substring(0, startindex);
-      query = value.substring(startindex, lastindex > 0 ? lastindex : null);
-      last = lastindex > 0 ? value.substring(lastindex).trimLeft() : '';
+      _start = triggervalue.substring(0, startindex);
+      _query = value.substring(startindex, lastindex > 0 ? lastindex : null);
+      _last = lastindex > 0 ? value.substring(lastindex).trimLeft() : '';
 
-      if (isOverlayVisible) {
-        overlayEntry?.remove();
+      if (_isOverlayVisible) {
+        _overlayEntry?.remove();
       }
 
-      showOverlay(isMention, isTag);
-    } else if (!match && isOverlayVisible) {
-      hideOverlay();
+      _showOverlay(isMention, isTag);
+    } else if (!match && _isOverlayVisible) {
+      _hideOverlay();
     }
   }
 
   @override
   void dispose() {
-    overlayEntry?.remove();
-    overlayEntry?.dispose();
+    _overlayEntry?.remove();
+    _overlayEntry?.dispose();
 
     super.dispose();
   }
@@ -143,11 +152,11 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
   @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
-      link: layerLink,
+      link: _layerLink,
       child: TextFormField(
         controller: widget.controller,
-        onChanged: (_) => onChanged(),
-        onTap: onChanged,
+        onChanged: (_) => _onChanged(),
+        onTap: _onChanged,
       ),
     );
   }
