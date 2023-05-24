@@ -1,3 +1,6 @@
+## 0.0.3
+
+* Passed more TextFormField properties
 ## 0.0.2
 
 * Added documentation
