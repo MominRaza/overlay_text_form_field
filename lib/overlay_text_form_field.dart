@@ -15,15 +15,36 @@ class OverlayTextFormField extends StatefulWidget {
   const OverlayTextFormField({
     super.key,
     required this.controller,
-    this.onFieldSubmitted,
     required this.overlayMentionBuilder,
     required this.overlayTagBuilder,
+    this.autofocus,
+    this.decoration,
+    this.textInputAction,
+    this.keyboardType,
+    this.textCapitalization,
+    this.validator,
+    this.minLines,
+    this.maxLines,
+    this.maxLength,
+    this.onFieldSubmitted,
+    this.focusNode,
   });
-  final TextEditingController controller;
-  final void Function(String)? onFieldSubmitted;
 
+  final TextEditingController controller;
   final OverlayBuilder overlayMentionBuilder;
   final OverlayBuilder overlayTagBuilder;
+
+  final bool? autofocus;
+  final InputDecoration? decoration;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final TextCapitalization? textCapitalization;
+  final String? Function(String?)? validator;
+  final int? minLines;
+  final int? maxLines;
+  final int? maxLength;
+  final void Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   @override
   State<OverlayTextFormField> createState() => _OverlayTextFormFieldState();
@@ -157,6 +178,18 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
         controller: widget.controller,
         onChanged: (_) => _onChanged(),
         onTap: _onChanged,
+        autofocus: widget.autofocus ?? false,
+        decoration: widget.decoration,
+        textInputAction: widget.textInputAction,
+        keyboardType: widget.keyboardType,
+        textCapitalization:
+            widget.textCapitalization ?? TextCapitalization.none,
+        validator: widget.validator,
+        minLines: widget.minLines,
+        maxLines: widget.maxLines,
+        maxLength: widget.maxLength,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        focusNode: widget.focusNode,
       ),
     );
   }
