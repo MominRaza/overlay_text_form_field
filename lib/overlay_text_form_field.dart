@@ -164,7 +164,7 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
 
   @override
   void dispose() {
-    if (_isOverlayVisible = true) {
+    if (_isOverlayVisible == true) {
       _overlayEntry?.remove();
     }
     _overlayEntry?.dispose();
