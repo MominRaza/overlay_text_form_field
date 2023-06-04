@@ -1,3 +1,8 @@
+## 0.0.5
+
+* added showMentionOverlay
+* added showTagOverlay
+
 ## 0.0.4
 
 * added overlayAboveTextField

@@ -18,6 +18,8 @@ class OverlayTextFormField extends StatefulWidget {
     required this.overlayMentionBuilder,
     required this.overlayTagBuilder,
     this.overlayAboveTextField = false,
+    this.showMentionOverlay = true,
+    this.showTagOverlay = true,
     this.autofocus,
     this.decoration,
     this.textInputAction,
@@ -35,6 +37,8 @@ class OverlayTextFormField extends StatefulWidget {
   final OverlayBuilder overlayMentionBuilder;
   final OverlayBuilder overlayTagBuilder;
   final bool overlayAboveTextField;
+  final bool showMentionOverlay;
+  final bool showTagOverlay;
 
   final bool? autofocus;
   final InputDecoration? decoration;
@@ -138,11 +142,13 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
     var isMention = false;
     var isTag = false;
 
-    if (RegExp(r"(?<!\S)@(\S+)?(?<!\s)$").hasMatch(triggervalue)) {
+    if (widget.showMentionOverlay &&
+        RegExp(r"(?<!\S)@(\S+)?(?<!\s)$").hasMatch(triggervalue)) {
       isMention = true;
       match = true;
     }
-    if (RegExp(r"(?<!\S)#(\S+)?(?<!\s)$").hasMatch(triggervalue)) {
+    if (widget.showTagOverlay &&
+        RegExp(r"(?<!\S)#(\S+)?(?<!\s)$").hasMatch(triggervalue)) {
       isTag = true;
       match = true;
     }
