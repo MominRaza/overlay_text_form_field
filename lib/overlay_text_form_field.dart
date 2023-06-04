@@ -17,6 +17,7 @@ class OverlayTextFormField extends StatefulWidget {
     required this.controller,
     required this.overlayMentionBuilder,
     required this.overlayTagBuilder,
+    this.overlayAboveTextField = false,
     this.autofocus,
     this.decoration,
     this.textInputAction,
@@ -33,6 +34,7 @@ class OverlayTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final OverlayBuilder overlayMentionBuilder;
   final OverlayBuilder overlayTagBuilder;
+  final bool overlayAboveTextField;
 
   final bool? autofocus;
   final InputDecoration? decoration;
@@ -75,7 +77,13 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
           height: 224,
           child: CompositedTransformFollower(
             link: _layerLink,
-            offset: Offset(0, size.height + 8),
+            offset: Offset(0, widget.overlayAboveTextField ? -8 : 8),
+            targetAnchor: widget.overlayAboveTextField
+                ? Alignment.topLeft
+                : Alignment.bottomLeft,
+            followerAnchor: widget.overlayAboveTextField
+                ? Alignment.bottomLeft
+                : Alignment.topLeft,
             child: Card(
               clipBehavior: Clip.hardEdge,
               child: isMention

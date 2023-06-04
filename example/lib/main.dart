@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:overlay_text_form_field/overlay_text_form_field.dart';
 
 void main() {
@@ -10,13 +11,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'OverlayTextFormField Example',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'OverlayTextFormField Example'),
+      routerConfig: GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (_, __) =>
+                const MyHomePage(title: 'OverlayTextFormField Example'),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -75,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             : const SizedBox();
       },
+      itemCount: users.length,
     );
   }
 
@@ -85,12 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
         return (tags[index]).toLowerCase().contains(query)
             ? ListTile(
                 visualDensity: VisualDensity.compact,
-                leading: const CircleAvatar(),
                 title: Text('#${tags[index]}'),
                 onTap: () => onOverlaySelect(tags[index]),
               )
             : const SizedBox();
       },
+      itemCount: tags.length,
     );
   }
 
@@ -106,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
           controller: controller,
           overlayMentionBuilder: overlayMentionBuilder,
           overlayTagBuilder: overlayTagBuilder,
+          overlayAboveTextField: true,
         ),
       ),
     );

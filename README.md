@@ -23,6 +23,9 @@ Overlay Text Form Field with Mention and Tags
 import 'package:overlay_text_form_field/overlay_text_form_field.dart';
 ```
 
+### Note
+> Wrap your app with a `Router` widget to provide the necessary routing functionality. This allows the `BackButtonListener` to function correctly and handle back button press events within the overlay form field.
+
 ## Usage
 
 ```dart
