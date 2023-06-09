@@ -31,6 +31,7 @@ class OverlayTextFormField extends StatefulWidget {
     this.maxLength,
     this.onFieldSubmitted,
     this.focusNode,
+    this.buildCounter,
   });
 
   final TextEditingController controller;
@@ -51,6 +52,7 @@ class OverlayTextFormField extends StatefulWidget {
   final int? maxLength;
   final void Function(String)? onFieldSubmitted;
   final FocusNode? focusNode;
+  final InputCounterWidgetBuilder? buildCounter;
 
   @override
   State<OverlayTextFormField> createState() => _OverlayTextFormFieldState();
@@ -206,6 +208,7 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
         maxLength: widget.maxLength,
         onFieldSubmitted: widget.onFieldSubmitted,
         focusNode: widget.focusNode,
+        buildCounter: widget.buildCounter,
       ),
     );
   }
