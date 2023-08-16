@@ -17,6 +17,16 @@ A Flutter package to add Overlay Text Form Field.
 
 Overlay Text Form Field with Mention and Tags
 
+## Screenshots
+
+![](https://raw.githubusercontent.com/MominRaza/assets/main/overlay_text_form_field/screenshot-0.png)
+![](https://raw.githubusercontent.com/MominRaza/assets/main/overlay_text_form_field/screenshot-1.png)
+![](https://raw.githubusercontent.com/MominRaza/assets/main/overlay_text_form_field/screenshot-2.png)
+
+## Recording
+
+https://github.com/MominRaza/assets/raw/main/overlay_text_form_field/recording-0.mp4
+
 ## Getting started
 
 ```
