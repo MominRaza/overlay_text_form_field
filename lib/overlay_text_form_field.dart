@@ -32,13 +32,88 @@ class OverlayTextFormField extends StatefulWidget {
     this.onFieldSubmitted,
     this.focusNode,
     this.buildCounter,
+    this.contentInsertionConfiguration,
   });
 
   final TextEditingController controller;
+
+  /// `overlayMentionBuilder` example
+  /// ``` dart
+  /// final users = [
+  ///   {
+  ///     'name': 'Momin Raza',
+  ///     'handle': 'momin',
+  ///   },
+  ///   {
+  ///     'name': 'Zaid Raza',
+  ///     'handle': 'zaid',
+  ///   },
+  ///   {
+  ///     'name': 'Mohd Uzam',
+  ///     'handle': 'uzam',
+  ///   },
+  ///   {
+  ///     'name': 'Hammad Raza',
+  ///     'handle': 'hammad',
+  ///   },
+  /// ];
+  ///
+  /// Widget overlayMentionBuilder(query, onOverlaySelect) {
+  ///   return ListView.builder(
+  ///     padding: EdgeInsets.zero,
+  ///     itemBuilder: (context, index) {
+  ///       return (users[index]['handle'] as String).toLowerCase().contains(query)
+  ///           ? ListTile(
+  ///               visualDensity: VisualDensity.compact,
+  ///               leading: const CircleAvatar(),
+  ///               title: Text(users[index]['name'] ?? ''),
+  ///               subtitle: Text('@${users[index]['handle']}'),
+  ///               onTap: () => onOverlaySelect(users[index]['handle']),
+  ///             )
+  ///           : const SizedBox();
+  ///     },
+  ///     itemCount: users.length,
+  ///   );
+  /// }
+  /// ```
   final OverlayBuilder overlayMentionBuilder;
+
+  /// `overlayTagBuilder` example
+  /// ```dart
+  /// final tags = [
+  ///   'Superman',
+  ///   'Batman',
+  ///   'WonderWoman',
+  ///   'Aquaman',
+  ///   'Cyborg',
+  ///   'TheFlash'
+  /// ];
+  ///
+  /// Widget overlayTagBuilder(query, onOverlaySelect) {
+  ///   return ListView.builder(
+  ///     padding: EdgeInsets.zero,
+  ///     itemBuilder: (context, index) {
+  ///       return (tags[index]).toLowerCase().contains(query)
+  ///           ? ListTile(
+  ///               visualDensity: VisualDensity.compact,
+  ///               title: Text('#${tags[index]}'),
+  ///               onTap: () => onOverlaySelect(tags[index]),
+  ///             )
+  ///           : const SizedBox();
+  ///     },
+  ///     itemCount: tags.length,
+  ///   );
+  /// }
+  /// ```
   final OverlayBuilder overlayTagBuilder;
+
+  /// Show overlay above in case using [OverlayTextFormField] in bottomNavigationBar
   final bool overlayAboveTextField;
+
+  /// If `showMentionOverlay: true` then [overlayMentionBuilder] is required
   final bool showMentionOverlay;
+
+  /// If `showTagOverlay: true` then [overlayTagBuilder] is required
   final bool showTagOverlay;
 
   final bool? autofocus;
@@ -53,6 +128,7 @@ class OverlayTextFormField extends StatefulWidget {
   final void Function(String)? onFieldSubmitted;
   final FocusNode? focusNode;
   final InputCounterWidgetBuilder? buildCounter;
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
 
   @override
   State<OverlayTextFormField> createState() => _OverlayTextFormFieldState();
@@ -134,6 +210,7 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
     });
   }
 
+  /// Checks if text contains any trigger
   void _onChanged() {
     final value = widget.controller.text;
     final cursorPosition = widget.controller.selection.baseOffset;
@@ -209,6 +286,7 @@ class _OverlayTextFormFieldState extends State<OverlayTextFormField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         focusNode: widget.focusNode,
         buildCounter: widget.buildCounter,
+        contentInsertionConfiguration: widget.contentInsertionConfiguration,
       ),
     );
   }

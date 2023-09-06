@@ -1,3 +1,8 @@
+## 0.0.8
+
+* Passed contentInsertionConfiguration TextFormField parameters
+* Added documentation
+
 ## 0.0.7
 
 * decreased minimum dart sdk version to 2.17.0

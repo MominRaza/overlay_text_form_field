@@ -1,6 +1,6 @@
 name: overlay_text_form_field
 description: A Flutter package to add Overlay Text Form Field. It provides User Mentions and Tag Support.
-version: 0.0.7
+version: 0.0.8
 homepage:
 repository: https://github.com/MominRaza/overlay_text_form_field
 
